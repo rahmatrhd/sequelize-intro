@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Student</title>
+  </head>
+  <body>
+    <h1>Students Data</h1>
+    <a href="/students/add">+ Add student</a>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(student => { %>
+          <tr>
+            <td><%= student.id %></td>
+            <td><%= student.first_name %></td>
+            <td><%= student.last_name %></td>
+            <td><%= student.full_name %></td>
+            <td><%= student.email %></td>
+            <td><a href="/students/edit/<%= student.id %>">Edit</a> | <a href="#" onclick="confirmDelete(<%= student.id %>)">Delete</a>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+      function confirmDelete(id) {
+        if (window.confirm('Delete this student?'))
+          document.location.href = `students/delete/${id}`
+      }
+    </script>
+  </body>
+</html>

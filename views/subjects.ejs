@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Subject</title>
+  </head>
+  <body>
+    <h1>Subjects Data</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Subject Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(subject => { %>
+          <tr>
+            <td><%= subject.id %></td>
+            <td><%= subject.subject_name %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
