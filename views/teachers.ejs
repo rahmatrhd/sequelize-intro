@@ -13,6 +13,8 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Email</th>
+          <th>Subjects</th>
+          <th>Options</th>
         </tr>
       </thead>
       <tbody>
@@ -22,9 +24,18 @@
             <td><%= teacher.first_name %></td>
             <td><%= teacher.last_name %></td>
             <td><%= teacher.email %></td>
+            <td><%= teacher.subjects.length <= 0 ? 'unassigned' : 'test' %></td>
+            <td><a href="/teachers/edit/<%= teacher.id %>">Edit</a> | <a href="#" onclick="confirmDelete(<%= teacher.id %>)">Delete</a>
           </tr>
         <% }) %>
       </tbody>
     </table>
+
+    <script type="text/javascript">
+      function confirmDelete(id) {
+        if (window.confirm('Delete this student?'))
+          document.location.href = `teachers/delete/${id}`
+      }
+    </script>
   </body>
 </html>

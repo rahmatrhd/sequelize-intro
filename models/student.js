@@ -6,17 +6,16 @@ module.exports = function(sequelize, DataTypes) {
     full_name: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: {
+        msg: 'email sama'
+      },
       validate: {
-        isEmail: true
-      }
-    }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
+        isEmail: {
+          msg: 'Email gabener'
+        }
       }
     }
   });
+
   return student;
 };

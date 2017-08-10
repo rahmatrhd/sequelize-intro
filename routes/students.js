@@ -20,7 +20,8 @@ router.post('/add', (req, res) => {
     res.redirect('/students')
   })
   .catch(err => {
-    res.redirect(`./add?err=${err.errors[0].message}`)
+    // res.redirect(`./add?err=${err.errors[0].message}`)
+    res.send(err)
   })
 })
 
