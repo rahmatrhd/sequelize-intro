@@ -1,11 +1,16 @@
 <%- include layout/head %>
-    <h1>Edit Student Data</h1>
-    <a href="/students">< Back</a>
+    <h1>Edit Teacher Data</h1>
+    <a href="/teachers">< Back</a>
     <p style="color:red"><%= err %></p>
-    <form action="/students/edit/<%= data.id %>" method="post">
+    <form action="/teachers/edit/<%= data.id %>" method="post">
       <input type="text" name="first_name" placeholder="First Name" value="<%= data.first_name %>">
       <input type="text" name="last_name" placeholder="Last Name" value="<%= data.last_name %>">
       <input type="text" name="email" placeholder="Email" value="<%= data.email %>">
-      <input type="submit" value="Edit Student">
+      <select name="subjectId">
+        <% combobox.forEach(subject => { %>
+          <option value=<%= subject.id %>><%= subject.subject_name %></option>
+        <% }) %>
+      </select>
+      <input type="submit" value="Edit Teacher">
     </form>
 <%- include layout/foot %>

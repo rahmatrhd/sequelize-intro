@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Subject</title>
-  </head>
-  <body>
-    <h1>Subjects Data</h1>
-    <table>
+<%- include layout/head %>
+  <div class="container">
+    <div class="text-center">
+      <h1>Subjects Data</h1>
+    </div>
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
           <th>Subject Name</th>
+          <th>Teacher</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -18,9 +17,17 @@
           <tr>
             <td><%= subject.id %></td>
             <td><%= subject.subject_name %></td>
+            <td>
+              <ol>
+                <% subject.teachers.forEach(teacher => { %>
+                  <li><%= `${teacher.first_name} ${teacher.last_name}` %></li>
+                <% }) %>
+              </ol>
+            </td>
+            <td><a href="/subjects/<%= subject.id %>/enrolledstudents">Enrolled Students</a><td>
           </tr>
         <% }) %>
       </tbody>
     </table>
-  </body>
-</html>
+  </div>
+<%- include layout/foot %>

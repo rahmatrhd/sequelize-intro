@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Teacher</title>
-  </head>
-  <body>
-    <h1>Teachers Data</h1>
-    <table>
+<%- include layout/head %>
+  <div class="container">
+    <div class="text-center">
+      <h1>Teachers Data</h1>
+      <p>
+        <a class="btn btn-primary" href="/teachers/add">+ Add teacher</a>
+      </p>
+    </div>
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
@@ -24,18 +24,18 @@
             <td><%= teacher.first_name %></td>
             <td><%= teacher.last_name %></td>
             <td><%= teacher.email %></td>
-            <td><%= teacher.subjects.length <= 0 ? 'unassigned' : 'test' %></td>
+            <td><%= teacher.subject ? teacher.subject : 'unassigned' %></td>
             <td><a href="/teachers/edit/<%= teacher.id %>">Edit</a> | <a href="#" onclick="confirmDelete(<%= teacher.id %>)">Delete</a>
           </tr>
         <% }) %>
       </tbody>
     </table>
+  </div>
 
-    <script type="text/javascript">
-      function confirmDelete(id) {
-        if (window.confirm('Delete this student?'))
-          document.location.href = `teachers/delete/${id}`
-      }
-    </script>
-  </body>
-</html>
+  <script type="text/javascript">
+    function confirmDelete(id) {
+      if (window.confirm('Delete this teacher?'))
+        document.location.href = `teachers/delete/${id}`
+    }
+  </script>
+<%- include layout/foot %>

@@ -1,11 +1,11 @@
 <%- include layout/head %>
-    <h1>Add Student Data</h1>
-    <a href="/students">< Back</a>
+    <h1>Add Teacher Data</h1>
+    <a href="/teachers">< Back</a>
     <p style="color:red"><%= err %></p>
-    <form action="/students/add" method="post">
+    <form action="/teachers/add" method="post">
       <input type="text" name="first_name" placeholder="First Name">
       <input type="text" name="last_name" placeholder="Last Name">
       <input type="text" name="email" placeholder="Email">
-      <input type="submit" value="Add Student">
+      <input type="submit" value="Add Teacher">
     </form>
 <%- include layout/foot %>

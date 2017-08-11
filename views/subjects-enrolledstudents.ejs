@@ -1,0 +1,32 @@
+<%- include layout/head %>
+  <div class="container">
+    <div class="text-center">
+      <h1><%= subject.subject_name %></h1>
+      <p>
+        <a class="btn btn-outline-primary " href="/subjects">Return to subject list</a>
+      </p>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach(student => { %>
+          <tr>
+            <td><%= student.full_name %></td>
+            <td>
+              <% if (student.student_subject.score != null) { %>
+                <%= student.student_subject.score %>
+              <% } else { %>
+                <a href="/subjects/<%= student.student_subject.id %>/givescore">Give Score</a>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<%- include layout/foot %>

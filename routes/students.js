@@ -20,8 +20,7 @@ router.post('/add', (req, res) => {
     res.redirect('/students')
   })
   .catch(err => {
-    // res.redirect(`./add?err=${err.errors[0].message}`)
-    res.send(err)
+    res.redirect(`./add?err=${err.errors[0].message}`)
   })
 })
 
@@ -32,6 +31,9 @@ router.get('/edit/:id', (req,res) => {
       data: row,
       err: req.query.err
     })
+  })
+  .catch(err => {
+    throw err
   })
 })
 
@@ -48,6 +50,29 @@ router.post('/edit/:id', (req, res) => {
 
 router.get('/delete/:id', (req, res) => {
   models.student.destroy({where: {id: req.params.id}})
+  .then(() => {
+    res.redirect('/students')
+  })
+})
+
+router.get('/:id/addsubject', (req, res) => {
+  models.student.findById(req.params.id)
+  .then(student => {
+    models.subject.findAll()
+    .then(combobox => {
+      res.render('students-addsubject', {student: student, combobox: combobox})
+    })
+  })
+})
+
+router.post('/:id/addsubject', (req, res) => {
+  // models.student_subject.create()
+  models.student_subject.bulkCreate(req.body.subjectId.map(subjectId => {
+    return {
+      subjectId: subjectId,
+      studentId: req.params.id
+    }
+  }))
   .then(() => {
     res.redirect('/students')
   })

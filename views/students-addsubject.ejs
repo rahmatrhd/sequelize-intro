@@ -1,0 +1,51 @@
+<%- include layout/head %>
+  <div class="container">
+    <div class="text-center">
+      <h1>Add Subject to Student</h1>
+    </div>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td><%= student.first_name %></td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td><%= student.last_name %></td>
+        </tr>
+        <tr>
+          <td>Full Name</td>
+          <td><%= student.full_name %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><%= student.email %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form action="/students/<%= student.id %>/addsubject" method="post">
+      <div class="form-group">
+        <label>Choose Subject</label>
+        <% combobox.forEach(subject => { %>
+          <div class="form-check">
+            <label>
+              <input type="checkbox" name="subjectId[]" value=<%= subject.id %>>
+              <%= subject.subject_name %>
+            </label>
+          </div>
+        <% }) %>
+      </div>
+      <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="Add Subject">
+      </div>
+    </form>
+  </div>
+
+    <script type="text/javascript">
+      function confirmDelete(id) {
+        if (window.confirm('Delete this student?'))
+          document.location.href = `students/delete/${id}`
+      }
+    </script>
+<%- include layout/foot %>
