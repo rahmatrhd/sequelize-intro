@@ -30,7 +30,7 @@
         <% combobox.forEach(subject => { %>
           <div class="form-check">
             <label>
-              <input type="checkbox" name="subjectId[]" value=<%= subject.id %>>
+              <input type="checkbox" name="subjectId[]" value=<%= subject.id %> <%= subject.checked ? 'checked' : '' %> >
               <%= subject.subject_name %>
             </label>
           </div>
@@ -41,11 +41,4 @@
       </div>
     </form>
   </div>
-
-    <script type="text/javascript">
-      function confirmDelete(id) {
-        if (window.confirm('Delete this student?'))
-          document.location.href = `students/delete/${id}`
-      }
-    </script>
 <%- include layout/foot %>

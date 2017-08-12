@@ -60,19 +60,35 @@ router.get('/:id/addsubject', (req, res) => {
   .then(student => {
     models.subject.findAll()
     .then(combobox => {
-      res.render('students-addsubject', {student: student, combobox: combobox})
+      let promises = combobox.map(combo => {
+        return new Promise((resolve, reject) => {
+          models.student_subject.findOne({where: {subjectId: combo.id, studentId: student.id}})
+          .then(jaenal => {
+            if (jaenal)
+              combo.checked = true
+            resolve(combo)
+          })
+        })
+      })
+
+      Promise.all(promises)
+      .then(combobox => {
+        res.render('students-addsubject', {student: student, combobox: combobox})
+      })
     })
   })
 })
 
 router.post('/:id/addsubject', (req, res) => {
-  // models.student_subject.create()
-  models.student_subject.bulkCreate(req.body.subjectId.map(subjectId => {
-    return {
-      subjectId: subjectId,
-      studentId: req.params.id
-    }
-  }))
+  models.student_subject.destroy({where: {studentId: req.params.id}})
+  .then(() => {
+    return models.student_subject.bulkCreate(req.body.subjectId.map(subjectId => {
+      return {
+        subjectId: subjectId,
+        studentId: req.params.id
+      }
+    }))
+  })
   .then(() => {
     res.redirect('/students')
   })

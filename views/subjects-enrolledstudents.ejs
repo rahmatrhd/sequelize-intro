@@ -21,7 +21,7 @@
               <% if (student.student_subject.score != null) { %>
                 <%= student.student_subject.score %>
               <% } else { %>
-                <a href="/subjects/<%= student.student_subject.id %>/givescore">Give Score</a>
+                <a href="/subjects/<%= student.student_subject.subjectId %>/givescore/<%= student.id %>">Give Score</a>
               <% } %>
             </td>
           </tr>

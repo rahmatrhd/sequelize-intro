@@ -41,20 +41,23 @@ router.get('/:id/enrolledstudents', (req, res) => {
   .then(subject => {
     subject.getStudents()
     .then(students => {
-      // res.render('subjects-enrolledstudents', {subject: subject, students: students})
-      res.send(students)
+      res.render('subjects-enrolledstudents', {subject: subject, students: students})
+      // res.send(students)
     })
   })
 })
 
-router.get('/:conjunctionId/givescore', (req, res) => {
-  res.render('subjects-givescore', {id: req.params.conjunctionId})
+router.get('/:subjectId/givescore/:studentId', (req, res) => {
+  models.student.findById(req.params.studentId)
+  .then(student => {
+    res.render('subjects-givescore', {student: student, subjectId: req.params.subjectId})
+  })
 })
 
-router.post('/:conjunctionId/givescore', (req, res) => {
-  models.student_subject.update(req.body, {where: {id: req.params.conjunctionId}})
+router.post('/:subjectId/givescore/:studentId', (req, res) => {
+  models.student_subject.update(req.body, {where: {subjectId: req.params.subjectId, studentId: req.params.studentId}})
   .then(() => {
-    res.redirect('subjects')
+    res.redirect(`/subjects/${req.params.subjectId}/enrolledstudents`)
   })
 })
 
