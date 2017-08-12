@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
     Promise.all(promises)
     .then(teachers => {
       // console.log(teachers);
-      res.render('teachers', {data: teachers})
+      res.render('teachers', {title: 'Teachers', data: teachers})
     })
     .catch(err => {
       throw err
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/add', (req, res) => {
-  res.render('teachers-add', {err: req.query.err})
+  res.render('teachers-add', {title: 'Add Teacher', err: req.query.err})
 })
 
 router.post('/add', (req, res) => {
@@ -48,6 +48,7 @@ router.get('/edit/:id', (req,res) => {
     models.subject.findAll()
     .then(subjects => {
       res.render('teachers-edit', {
+        title: 'Edit Teacher',
         data: teacher,
         combobox: subjects,
         err: req.query.err

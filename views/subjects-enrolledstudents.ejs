@@ -10,7 +10,8 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Score</th>
+          <th>Score By Number</th>
+          <th>Score By Letter</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,9 @@
               <% } else { %>
                 <a href="/subjects/<%= student.student_subject.subjectId %>/givescore/<%= student.id %>">Give Score</a>
               <% } %>
+            </td>
+            <td>
+              <%= student.letterScore%>
             </td>
           </tr>
         <% }) %>

@@ -2,15 +2,15 @@ const express = require('express')
 let router = express.Router()
 const models = require('../models')
 
+const studentScore = require('../helpers/student-score')
+
 router.get('/', (req, res) => {
   models.subject.findAll()
   .then(subjects => {
     let promises = subjects.map(subject => {
       return new Promise((resolve, reject) => {
-        // console.log(subject);
         subject.getTeachers()
         .then(teachers => {
-          // console.log(teachers);
           subject.teachers = teachers
 
           resolve(subject)
@@ -23,8 +23,7 @@ router.get('/', (req, res) => {
 
     Promise.all(promises)
     .then(subjects => {
-      // console.log(subjects);
-      res.render('subjects', {data: subjects})
+      res.render('subjects', {title: 'Subjects', data: subjects})
     })
     .catch(err => {
       throw err
@@ -41,8 +40,11 @@ router.get('/:id/enrolledstudents', (req, res) => {
   .then(subject => {
     subject.getStudents()
     .then(students => {
-      res.render('subjects-enrolledstudents', {subject: subject, students: students})
-      // res.send(students)
+      res.render('subjects-enrolledstudents', {
+        title: 'Enrolled Students',
+        subject: subject,
+        students: students.map(student => {return studentScore(student)})
+      })
     })
   })
 })
@@ -50,7 +52,11 @@ router.get('/:id/enrolledstudents', (req, res) => {
 router.get('/:subjectId/givescore/:studentId', (req, res) => {
   models.student.findById(req.params.studentId)
   .then(student => {
-    res.render('subjects-givescore', {student: student, subjectId: req.params.subjectId})
+    res.render('subjects-givescore', {
+      title: 'Give Score',
+      student: student,
+      subjectId: req.params.subjectId
+    })
   })
 })
 

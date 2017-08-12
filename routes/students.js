@@ -5,12 +5,12 @@ const models = require('../models')
 router.get('/', (req, res) => {
   models.student.findAll()
   .then(rows => {
-    res.render('students', {data: rows})
+    res.render('students', {title: 'Students Data', data: rows})
   })
 })
 
 router.get('/add', (req,res) => {
-  res.render('students-add', {err: req.query.err})
+  res.render('students-add', {title: 'Add Student', err: req.query.err})
 })
 
 router.post('/add', (req, res) => {
@@ -28,6 +28,7 @@ router.get('/edit/:id', (req,res) => {
   models.student.findById(req.params.id)
   .then(row => {
     res.render('students-edit', {
+      title: 'Edit Student',
       data: row,
       err: req.query.err
     })
@@ -68,12 +69,19 @@ router.get('/:id/addsubject', (req, res) => {
               combo.checked = true
             resolve(combo)
           })
+          .catch(err => {
+            reject(err)
+          })
         })
       })
 
       Promise.all(promises)
       .then(combobox => {
-        res.render('students-addsubject', {student: student, combobox: combobox})
+        res.render('students-addsubject', {
+          title: 'Add Subjects',
+          student: student,
+          combobox: combobox
+        })
       })
     })
   })
