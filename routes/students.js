@@ -2,15 +2,38 @@ const express = require('express')
 let router = express.Router()
 const models = require('../models')
 
+router.use((req, res, next) => {
+  if (req.session.hasOwnProperty('username'))
+    switch (req.session.role) {
+      case 'teacher':
+      case 'academic':
+      case 'headmaster':
+        next()
+        break;
+      default:
+        res.send('Access denied!')
+    }
+  else
+    res.redirect('/login')
+})
+
 router.get('/', (req, res) => {
   models.student.findAll()
   .then(rows => {
-    res.render('students', {title: 'Students Data', data: rows})
+    res.render('students', {
+      title: 'Students Data',
+      data: rows,
+      session: req.session
+    })
   })
 })
 
 router.get('/add', (req,res) => {
-  res.render('students-add', {title: 'Add Student', err: req.query.err})
+  res.render('students-add', {
+    title: 'Add Student',
+    err: req.query.err,
+    session: req.session
+  })
 })
 
 router.post('/add', (req, res) => {
@@ -30,7 +53,8 @@ router.get('/edit/:id', (req,res) => {
     res.render('students-edit', {
       title: 'Edit Student',
       data: row,
-      err: req.query.err
+      err: req.query.err,
+      session: req.session
     })
   })
   .catch(err => {
@@ -51,6 +75,9 @@ router.post('/edit/:id', (req, res) => {
 
 router.get('/delete/:id', (req, res) => {
   models.student.destroy({where: {id: req.params.id}})
+  .then(() => {
+    return models.student_subject.destroy({where: {studentId: req.params.id}})
+  })
   .then(() => {
     res.redirect('/students')
   })
@@ -80,7 +107,8 @@ router.get('/:id/addsubject', (req, res) => {
         res.render('students-addsubject', {
           title: 'Add Subjects',
           student: student,
-          combobox: combobox
+          combobox: combobox,
+          session: req.session
         })
       })
     })

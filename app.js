@@ -1,9 +1,16 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const session = require('express-session')
 
 app.set('view engine', 'ejs')
 
+app.use(session({
+  secret: 'rahmathidayatrahmathidayat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {} //{ secure: true }
+}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + '/public'))

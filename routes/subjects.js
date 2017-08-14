@@ -4,6 +4,20 @@ const models = require('../models')
 
 const studentScore = require('../helpers/student-score')
 
+router.use((req, res, next) => {
+  if (req.session.hasOwnProperty('username'))
+    switch (req.session.role) {
+      case 'academic':
+      case 'headmaster':
+        next()
+        break;
+      default:
+        res.send('Access denied!')
+    }
+  else
+    res.redirect('/login')
+})
+
 router.get('/', (req, res) => {
   models.subject.findAll()
   .then(subjects => {
@@ -23,7 +37,11 @@ router.get('/', (req, res) => {
 
     Promise.all(promises)
     .then(subjects => {
-      res.render('subjects', {title: 'Subjects', data: subjects})
+      res.render('subjects', {
+        title: 'Subjects',
+        data: subjects,
+        session: req.session
+      })
     })
     .catch(err => {
       throw err
@@ -43,7 +61,8 @@ router.get('/:id/enrolledstudents', (req, res) => {
       res.render('subjects-enrolledstudents', {
         title: 'Enrolled Students',
         subject: subject,
-        students: students.map(student => {return studentScore(student)})
+        students: students.map(student => {return studentScore(student)}),
+        session: req.session
       })
     })
   })
@@ -55,13 +74,19 @@ router.get('/:subjectId/givescore/:studentId', (req, res) => {
     res.render('subjects-givescore', {
       title: 'Give Score',
       student: student,
-      subjectId: req.params.subjectId
+      subjectId: req.params.subjectId,
+      session: req.session
     })
   })
 })
 
 router.post('/:subjectId/givescore/:studentId', (req, res) => {
-  models.student_subject.update(req.body, {where: {subjectId: req.params.subjectId, studentId: req.params.studentId}})
+  models.student_subject.update(req.body, {
+    where: {
+      subjectId: req.params.subjectId,
+      studentId: req.params.studentId
+    }
+  })
   .then(() => {
     res.redirect(`/subjects/${req.params.subjectId}/enrolledstudents`)
   })

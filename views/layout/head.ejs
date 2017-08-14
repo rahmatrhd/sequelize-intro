@@ -23,26 +23,43 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/teachers">Teachers</a>
+          <% if (!session.hasOwnProperty('username')) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+          <% } else { %>
+            <span class="navbar-text">Hello, <%= session.username %></span>
 
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="/teachers/add">Add Teacher</a>
-            </div>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/students">Students</a>
+            <% if (session.role == 'headmaster') { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/teachers">Teachers</a>
 
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="/students/add">Add Student</a>
-            </div>
-          </li>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/teachers/add">Add Teacher</a>
+                </div>
+              </li>
+            <% } %>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/subjects">Subjects</a>
-          </li>
+            <% if (session.role == 'headmaster' || session.role == 'academic' || session.role == 'teacher') { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/students">Students</a>
 
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/students/add">Add Student</a>
+                </div>
+              </li>
+            <% } %>
+
+            <% if (session.role == 'headmaster' || session.role == 'academic') { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/subjects">Subjects</a>
+              </li>
+            <% } %>
+          <% } %>
         </ul>
       </div>
     </nav>

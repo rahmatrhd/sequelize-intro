@@ -2,6 +2,19 @@ const express = require('express')
 let router = express.Router()
 const models = require('../models')
 
+router.use((req, res, next) => {
+  if (req.session.hasOwnProperty('username'))
+    switch (req.session.role) {
+      case 'headmaster':
+        next()
+        break;
+      default:
+        res.send('Access denied!')
+    }
+  else
+    res.redirect('/login')
+})
+
 router.get('/', (req, res) => {
   models.teacher.findAll()
   .then(teachers => {
@@ -20,7 +33,11 @@ router.get('/', (req, res) => {
     Promise.all(promises)
     .then(teachers => {
       // console.log(teachers);
-      res.render('teachers', {title: 'Teachers', data: teachers})
+      res.render('teachers', {
+        title: 'Teachers',
+        data: teachers,
+        session: req.session
+      })
     })
     .catch(err => {
       throw err
@@ -29,7 +46,11 @@ router.get('/', (req, res) => {
 })
 
 router.get('/add', (req, res) => {
-  res.render('teachers-add', {title: 'Add Teacher', err: req.query.err})
+  res.render('teachers-add', {
+    title: 'Add Teacher',
+    err: req.query.err,
+    session: req.session
+  })
 })
 
 router.post('/add', (req, res) => {
