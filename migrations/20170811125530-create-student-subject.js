@@ -8,10 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      StudentId: {
+      studentId: {
         type: Sequelize.INTEGER
       },
-      SubjectId: {
+      subjectId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
