@@ -23,5 +23,8 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
+    return queryInterface.changeColumn('students', 'email', {
+      type: Sequelize.STRING
+    })
   }
 };
