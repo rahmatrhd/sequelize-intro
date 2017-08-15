@@ -3,7 +3,7 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn('teachers', 'subjectId', {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: true
     });
   },

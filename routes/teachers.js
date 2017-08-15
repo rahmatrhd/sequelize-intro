@@ -27,6 +27,9 @@ router.get('/', (req, res) => {
 
           return resolve(teacher)
         })
+        .catch(err => {
+          reject(err)
+        })
       })
     })
 
