@@ -72,7 +72,8 @@ router.get('/edit/:id', (req,res) => {
         title: 'Edit Teacher',
         data: teacher,
         combobox: subjects,
-        err: req.query.err
+        err: req.query.err,
+        session: req.session
       })
     })
     .catch(err => {
