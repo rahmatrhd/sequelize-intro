@@ -10,8 +10,8 @@ module.exports = {
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
     return queryInterface.changeColumn('students', 'email', {
-      type: Sequelize.STRING,
-      unique: true
+      type: Sequelize.STRING //,
+      // unique: true
     });
   },
 
