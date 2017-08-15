@@ -27,8 +27,11 @@
             <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Signup</a>
+            </li>
           <% } else { %>
-            <span class="navbar-text">Hello, <%= session.username %></span>
+            <span class="navbar-text">Hello, <%= session.username %>!</span>
 
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
